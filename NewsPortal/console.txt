@@ -1,0 +1,83 @@
+user1 = User.objects.create_user(username = 'Andrey')
+user2 = User.objects.create_user(username = 'Maria')
+auth1= Author.objects.create( user = user1)
+auth2= Author.objects.create( user = user2)
+cat1 = Category.objects.create( name = 'Policy')
+cat2 = Category.objects.create( name = 'Sport')
+cat3 = Category.objects.create( name = 'Religion')
+cat4 = Category.objects.create( name = 'Ecology')
+au1 = Author.objects.get(pk=1)
+au2 = Author.objects.get(pk=2)
+post1 = Post.objects.create( post_type = 'AR', author_id = au1)
+post2 = Post.objects.create( post_type = 'AR', author_id = au2)
+post3 = Post.objects.create( post_type = 'NE', author_id = au1)
+
+post1.title = 'В ПМЭФ примут участие более 17 тысяч человек из 136 стран'
+post1.post_text = 'МОСКВА, 31 мая — РИА Новости. Петербургский международный экономический форум в этом году соберет более 17 тысяч участников и
+з 136 стран, сообщил советник президента России, ответственный секретарь оргкомитета ПМЭФ Антон Кобяков, слова которого приводит пресс-служба "Роско
+нгресса".'
+post1.save()
+
+post2.title = 'Стала известна сумма налогового вычета за значок ГТО'
+post2.post_text = ' Налоговый вычет за сдачу норматива ГТО составит 500 рублей в месяц и будет действовать в течение года после получения или по
+дтверждения соответствующего знака отличия, то есть налогоплательщик фактически сможет вернуть себе 13% от этой суммы, или 65 рублей уплаченных нало
+гов в месяц, говорится в подготовленном Минфином РФ проекте поправок, с которым ознакомилось РИА Новости.'
+post2.save()
+
+post3.title = 'Главу Конференции католических епископов России прооперируют'
+post3.post_text = 'Глава Конференции католических епископов России архиепископ Павел Пецци будет прооперирован, сообщил генеральный викарий Като
+лической архиепархии Божией Матери в Москве священник Кирилл Горбунов.'
+post3.save()
+
+cat1 = Category.objects.get(pk=1)
+cat2 = Category.objects.get(pk=2)
+cat3 = Category.objects.get(pk=3)
+cat4 = Category.objects.get(pk=4)
+
+post1.categories.add(cat4)
+post2.categories.add(cat2)
+post3.categories.add(cat1, cat3)
+
+pi1 = Post.objects.get(pk=1)
+pi2 = Post.objects.get(pk=2)
+pi3 = Post.objects.get(pk=3)
+ui1 = User.objects.get(pk = 3)
+ui2 = User.objects.get(pk = 4)
+
+com1 = Comment.objects.create(comment_text = 'Cool', post_id = pi1, user_id = ui1)
+com2 = Comment.objects.create(comment_text = 'Cool', post_id = pi2, user_id = ui2)
+com3 = Comment.objects.create(comment_text = 'Bad', post_id = pi3, user_id = ui1)
+com4 = Comment.objects.create(comment_text = 'Cool', post_id = pi2, user_id = ui1)
+
+(тут перезапускал shell, заного задавал переменные)
+com1 = Comment.objects.get(pk=1)
+com2 = Comment.objects.get(pk=2)
+com3 = Comment.objects.get(pk=3)
+com4 = Comment.objects.get(pk=4)
+com1.like()
+com2.like()
+com3.dislike()
+com4.like()
+
+post1 = Post.objects.get(pk=1)
+post2 = Post.objects.get(pk=2)
+post3 = Post.objects.get(pk=3)
+post1.like()
+post2.like()
+post2.like()
+post3.dislike()
+
+auth1 = Author.objects.get(pk=1)
+auth1.update_rating()
+auth2 = Author.objects.get(pk=2)
+auth2.update_rating()
+
+best_author = Author.objects.order_by('-user_rating').values('user_rating', 'user__username').first()
+
+best_post = Post.objects.order_by('-post_rating').values('post_time_in', 'author_id__user__username', 'post_rating', 'title', 'post_text'[:124]).first()
+
+best_post1 = best_post = Post.objects.order_by('-post_rating').first()
+best_post_comm = Comment.objects.filter(post_id=best_post1).values('comm_time_in', 'user_id__username', 'comment_rating', 'comment_text')
+
+
+
