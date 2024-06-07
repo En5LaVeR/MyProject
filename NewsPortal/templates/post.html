@@ -1,6 +1,7 @@
 <!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
 {% extends 'flatpages/default.html' %}
 
+{% load custom_filters %}!
 
 {% block title %}
 Post
@@ -13,6 +14,6 @@ Post
 <h3>Дата публикации</h3>
 <td>{{ post.post_time_in| date:'d M Y' }}</td>
 <h3>Текст статьи</h3>
-<td>{{ post.post_text }}</td>
+<td>{{ post.post_text| filter_message }}</td>
 
 {% endblock content %}
