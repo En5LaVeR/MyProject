@@ -9,10 +9,11 @@ Posts
 
 {% block content %}
    <h1>Все Новости</h1>
+   <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" value="Найти" />
 
-    <h3>{{ time_now|date:'M d Y' }}</h3>
-    <h3> Кол-во новостей: {{ news|length }}</h3>
-
+   </form>
 
    <hr>
    {% if posts %}

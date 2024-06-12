@@ -2,11 +2,15 @@ from django.db.models import Sum
 from django.db.models.functions import Coalesce
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Author(models.Model):
     user_rating = models.IntegerField(default=0)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username.title()
 
     def update_rating(self):
         post_rating = Post.objects.filter(author_id=self).aggregate(pr=Coalesce(Sum('post_rating'), 0))['pr']
@@ -19,6 +23,9 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name.title()
 
 
 class Post(models.Model):
@@ -52,6 +59,9 @@ class Post(models.Model):
     def preview(self):
         return self.post_text[:124] + '...'
 
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
+
 
 class Comment(models.Model):
     comm_time_in = models.DateTimeField(auto_now_add=True)
@@ -59,6 +69,9 @@ class Comment(models.Model):
     comment_rating = models.IntegerField(default=0)
     post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def str(self):
+        return f'{self.user.username.title()}: {self.comment_text}'
 
     def like(self):
         self.comment_rating += 1
@@ -72,3 +85,6 @@ class Comment(models.Model):
 class PostCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    def str(self):
+        return f'{self.category.name.title()}: {self.post.title}'
