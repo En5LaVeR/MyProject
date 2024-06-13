@@ -1,11 +1,13 @@
 # Импортируем класс, который говорит нам о том,
 # что в этом представлении мы будем выводить список объектов из БД
+from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
 from datetime import datetime
 from .filters import PostFilter
 from .forms import PostForm
+from django.urls import reverse_lazy
 
 
 class PostsList(ListView):
@@ -57,5 +59,28 @@ class PostCreate(CreateView):
         if self.request.path == '/news/create/':
             post.post_type = 'NE'
             post.save()
+        elif self.request.path == '/articles/create/':
+            post.post_type = 'AR'
+            post.save()
         return super().form_valid(form)
+
+
+class PostUpdate(UpdateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'post_edit.html'
+    success_url = reverse_lazy('posts_list')
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        if (self.request.path == f'/news/{post.id}/edit/' and post.post_type != 'NE') or \
+           (self.request.path == f'/articles/{post.id}/edit/' and post.post_type != 'AR'):
+            return HttpResponseForbidden("Вы не можете вносить изменения в данный тип записи")
+        return super().form_valid(form)
+
+
+class PostDelete(DeleteView):
+    model = Post
+    template_name = 'post_delete.html'
+    success_url = reverse_lazy('posts_list')
 
