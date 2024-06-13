@@ -1,7 +1,6 @@
 # Импортируем класс, который говорит нам о том,
 # что в этом представлении мы будем выводить список объектов из БД
 from django.http import HttpResponseForbidden
-from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
 from datetime import datetime
@@ -15,7 +14,7 @@ class PostsList(ListView):
     ordering = '-post_time_in'
     template_name = 'news.html'
     context_object_name = 'posts'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,7 +35,7 @@ class SearchList(ListView):
     ordering = '-post_time_in'
     template_name = 'news_search.html'
     context_object_name = 'posts'
-    paginate_by = 3
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -83,4 +82,6 @@ class PostDelete(DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('posts_list')
+
+
 
