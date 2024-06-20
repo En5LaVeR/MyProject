@@ -161,19 +161,5 @@ ACCOUNT_FORMS = {'signup': 'News.forms.BasicSignupForm'}
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 
-OCIALACCOUNT_PROVIDERS = {
-    'yandex': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
 
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-            'redirect_uri': 'http://127.0.0.1:8000/accounts/yandex/login/callback'
-        },
-        'OAUTH_PKCE_ENABLED': True,
-        'FETCH_USERINFO': True
-    }
-}
 
