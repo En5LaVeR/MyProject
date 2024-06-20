@@ -88,3 +88,5 @@ class PostCategory(models.Model):
 
     def str(self):
         return f'{self.category.name.title()}: {self.post.title}'
+
+

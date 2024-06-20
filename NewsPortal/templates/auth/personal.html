@@ -1,0 +1,22 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Personal
+{% endblock title %}
+
+{% block content %}
+<h2>Страница авторизованного пользователя {{request.user.username}}.</h2>
+<div> Скоро здесь появится ваша персональная информация. </div>
+
+
+<h6> Для выхода из системы нажмите кнопку: </h6>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Выйти</button>
+    </form>
+
+{% if is_not_author %}
+<button> <a href="/upgrade/"> Хочу стать автором!</a> </button>
+{% endif %}
+
+{% endblock %}
