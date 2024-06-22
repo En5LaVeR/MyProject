@@ -21,6 +21,9 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.name.title()}: {self.description}, {self.price} р'
 
+    def get_absolute_url(self):
+        return reverse('product_detail', args=[str(self.id)])
+
 
 class ProductMaterial(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
