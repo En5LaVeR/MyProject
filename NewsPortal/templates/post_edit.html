@@ -1,11 +1,14 @@
 {% extends 'flatpages/default.html' %}
 
 {% block content %}
-<h1> Пост </h1>
+<h1> Заполните поля </h1>
 <hr>
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Save" />
 </form>
+
+<p class="text-center"><a href="{% url 'posts_list' %}" class="btn btn-secondary btn-bm">Вернутся на главную</a></p>
+
 {% endblock content %}

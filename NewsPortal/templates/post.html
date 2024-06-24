@@ -9,11 +9,13 @@ Post
 
 
 {% block content %}
+<button> <a href="{% url 'posts_list' %}"> Вернуться на главную</a> </button>
 <h3>Заголовок</h3>
 <td>{{ post.title }}</td>
 <h3>Дата публикации</h3>
 <td>{{ post.post_time_in| date:'d M Y' }}</td>
 <h3>Текст статьи</h3>
 <td>{{ post.post_text| filter_message }}</td>
+
 
 {% endblock content %}

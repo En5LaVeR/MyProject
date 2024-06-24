@@ -12,11 +12,13 @@ Personal
 <h6> Для выхода из системы нажмите кнопку: </h6>
     <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit">Выйти</button>
+        <button type="submit">Выйти из аккаунта</button>
     </form>
 
 {% if is_not_author %}
 <button> <a href="/upgrade/"> Хочу стать автором!</a> </button>
 {% endif %}
+<button> <a href="{% url 'posts_list' %}"> Вернуться к списку статей</a> </button>
+
 
 {% endblock %}

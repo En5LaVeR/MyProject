@@ -25,10 +25,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 SECRET_KEY = os.getenv('SECRET_KEY')
-EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_PORT = os.getenv('EMAIL_PORT')
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
 
 ALLOWED_HOSTS = []
 
@@ -44,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'fpages',
-    'News',
+    'News.apps.NewsConfig',
     'django_filters',
     'allauth',
     'allauth.account',
@@ -162,5 +158,10 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'kavusspk'  # имя пользователя ( до @)
-EMAIL_USE_SSL = True  # шифрование
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_USE_SSL = True
+
+SITE_URL = 'http://127.0.0.1:8000'

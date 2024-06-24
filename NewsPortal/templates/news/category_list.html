@@ -4,28 +4,21 @@
 {% load custom_tags %}
 
 {% block title %}
-Новости
+Posts
 {% endblock title %}
 
 {% block content %}
+   <h1>Все Новости</h1>
 
     <h3>{{ time_now|date:'M d Y' }}</h3>
-    <h3> Кол-во статей: {{ news|length }}</h3>
-    <button> <a href="/account/login/"> Личный кабинет </a></button>
-    <button> <a href="{% url 'post_search' %}"> Отсортировать </a> </button>
-
-    {% if is_author %}
-        <button> <a href="{% url 'articles_create' %}"> Создать свою статью </a> </button>
+    <h3> Кол-во новостей: {{ news|length }}</h3>
+    <button> <a href="{% url 'posts_list' %}"> Вернуться на главную</a> </button>
+    {% if is_not_subscriber %}
+        <p class="text-center"><a href="{% url 'subscribe' category.id%}" class="btn btn-secondary btn-sm">Подписка на категорию</a></p>
     {% endif %}
-
-    {% if is_author %}
-        <button> <a href="{% url 'news_create' %}"> Поделиться новостью </a> </button>
-    {% endif %}
-
-
 
    <hr>
-   {% if posts %}
+   {% if category_news_list %}
        <table>
            <tr>
                <td>Заголовок</td>
@@ -35,7 +28,7 @@
            </tr>
 
 
-           {% for post in posts %}
+           {% for post in category_news_list %}
            <tr>
                <td><a href="{% url 'post_detail' post.id %}"> {{ post.title }}</a></td>
                <td>
@@ -76,9 +69,5 @@
            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
        {% endif %}
    {% endif %}
-
-
-
-
 
 {% endblock content %}

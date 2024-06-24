@@ -1,6 +1,7 @@
 from django.http import HttpResponseForbidden
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
-from .models import Post
+from django.views.generic import (ListView, DetailView, CreateView, UpdateView,
+                                  DeleteView, TemplateView)
+from .models import Post, Category
 from datetime import datetime
 from .filters import PostFilter
 from .forms import PostForm
@@ -23,6 +24,7 @@ class PostsList(ListView):
         context['time_now'] = datetime.utcnow()
         news_list = Post.objects.all()
         context['news'] = news_list
+        context['is_author'] = self.request.user.groups.filter(name='authors').exists()
         return context
 
 
@@ -58,12 +60,14 @@ class PostCreate(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         post = form.save(commit=False)
-        if self.request.path == '/news/create/':
+        if self.request.path == '/news/news/create/':
             post.post_type = 'NE'
             post.save()
-        elif self.request.path == '/articles/create/':
+
+        elif self.request.path == '/news/articles/create/':
             post.post_type = 'AR'
             post.save()
+
         return super().form_valid(form)
 
 
@@ -104,3 +108,36 @@ def upgrade_me(request):
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
     return redirect('/')
+
+
+class CategoryList(PostsList):
+    model = Post
+    template_name = 'news/category_list.html'
+    context_object_name = 'category_news_list'
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, id=self.kwargs['pk'])
+        queryset = Post.objects.filter(categories=self.category).order_by('-post_time_in')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_subscriber'] = self.request.user not in self.category.subscribers.all()
+        context['category'] = self.category
+        return context
+
+
+@login_required()
+def subscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+    category.subscribers.add(user)
+
+    message = 'Вы успешно подписались на категорию'
+    return render(request, 'news/subscribe.html', {'category': category, 'message': message})
+
+
+
+
+
+
