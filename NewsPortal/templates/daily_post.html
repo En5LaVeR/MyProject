@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Рассылка </title>
+</head>
+<body>
+    <h2>Здраствуйте! Новые статьи занеделю на ваших категориях</h2>
+<ul>
+    {% for post in posts%}
+        <li><a href="{{ link }}{{ post.get_absolute_url }}">{{post.title}}</a> </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

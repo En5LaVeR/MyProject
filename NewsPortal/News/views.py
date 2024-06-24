@@ -1,8 +1,9 @@
+import datetime
+
 from django.http import HttpResponseForbidden
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView,
                                   DeleteView, TemplateView)
-from .models import Post, Category
-from datetime import datetime
+from .models import Post, Category, Author
 from .filters import PostFilter
 from .forms import PostForm
 from django.urls import reverse_lazy
@@ -21,7 +22,7 @@ class PostsList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['time_now'] = datetime.utcnow()
+        # context['time_now'] = datetime.utcnow()
         news_list = Post.objects.all()
         context['news'] = news_list
         context['is_author'] = self.request.user.groups.filter(name='authors').exists()
@@ -52,7 +53,7 @@ class SearchList(ListView):
         return context
 
 
-class PostCreate(PermissionRequiredMixin, CreateView):
+class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = ('News.add_post',)
     form_class = PostForm
     model = Post
@@ -60,6 +61,11 @@ class PostCreate(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         post = form.save(commit=False)
+        today = datetime.date.today()
+        post_limit = Post.objects.filter(author_id=post.author_id, post_time_in__date=today).count()
+        if post_limit >= 3:
+            return render(self.request, 'news/post_limit.html', {'author': post.author_id})
+
         if self.request.path == '/news/news/create/':
             post.post_type = 'NE'
             post.save()
@@ -107,6 +113,8 @@ def upgrade_me(request):
     authors_group = Group.objects.get(name='authors')
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
+        if not Author.objects.filter(user=user).exists():
+            Author.objects.create(user=user)
     return redirect('/')
 
 
@@ -122,6 +130,7 @@ class CategoryList(PostsList):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['is_subscriber'] = self.request.user in self.category.subscribers.all()
         context['is_not_subscriber'] = self.request.user not in self.category.subscribers.all()
         context['category'] = self.category
         return context
@@ -137,6 +146,14 @@ def subscribe(request, pk):
     return render(request, 'news/subscribe.html', {'category': category, 'message': message})
 
 
+@login_required()
+def unsubscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+    category.subscribers.remove(user)
+
+    message = 'Вы успешно отписались от  категории'
+    return render(request, 'news/subscribe.html', {'category': category, 'message': message})
 
 
 

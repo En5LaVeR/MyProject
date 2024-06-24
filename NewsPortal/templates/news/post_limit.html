@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Post limit
+{% endblock title %}
+
+{% block content %}
+<h2>Уважаемый {{author}}, на портале нельзя публиковать более трех постов в сутки.</h2>
+
+<h6> Для возврата на главную страницу нажмите кнопку: </h6>
+    <form method="get" action="{% url 'posts_list' %}">
+        {% csrf_token %}
+        <button type="submit">Перейти</button>
+    </form>
+
+{% endblock %}
