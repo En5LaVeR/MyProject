@@ -91,3 +91,4 @@ class PostCategory(models.Model):
         return f'{self.category.name.title()}: {self.post.title}'
 
 
+

@@ -37,3 +37,4 @@ def notify_about_new_post(sender, instance, **kwargs):
 
         send_notifications(instance.preview(), instance.pk, instance.title, subscribers_emails)
 
+
