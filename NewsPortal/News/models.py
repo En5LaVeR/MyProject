@@ -44,7 +44,7 @@ class Post(models.Model):
     post_text = models.TextField(default="Здесь пока никто ничего не написал.")
     post_rating = models.IntegerField(default=0)
     author_id = models.ForeignKey(Author, on_delete=models.CASCADE)
-    categories = models.ManyToManyField(Category, through='PostCategory')
+    categories = models.ManyToManyField(Category, through='PostCategory', related_name='post')
 
     def __str__(self):
         return f'{self.title.title()}: {self.preview()}, Рейтинг новости: {self.post_rating}'

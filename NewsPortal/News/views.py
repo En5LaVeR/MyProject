@@ -11,6 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.models import Group
+from .tasks import send_mess_new_post
 
 
 class PostsList(ListView):
@@ -74,6 +75,7 @@ class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
             post.post_type = 'AR'
             post.save()
 
+        send_mess_new_post.delay(post.pk)
         return super().form_valid(form)
 
 
