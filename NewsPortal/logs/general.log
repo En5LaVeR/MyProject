@@ -1,0 +1,32 @@
+03.08.2024 12-12-19 INFO autoreload Watching for file changes with StatReloader
+03.08.2024 12-12-31 INFO basehttp "GET /news/ HTTP/1.1" 200 6923
+03.08.2024 12-12-33 INFO basehttp "GET /news/50 HTTP/1.1" 200 2981
+03.08.2024 12-14-51 INFO basehttp "GET /news/ HTTP/1.1" 200 6923
+03.08.2024 12-14-51 INFO autoreload /home/andrey/PycharmProjects/MyProject/NewsPortal/NewsPortal/settings.py changed, reloading.
+03.08.2024 12-14-52 INFO autoreload Watching for file changes with StatReloader
+03.08.2024 12-14-54 INFO basehttp "GET /news/50 HTTP/1.1" 200 2981
+03.08.2024 12-15-00 INFO basehttp "GET /news/ HTTP/1.1" 200 6923
+03.08.2024 12-15-37 INFO autoreload /home/andrey/PycharmProjects/MyProject/NewsPortal/News/models.py changed, reloading.
+03.08.2024 12-15-37 INFO autoreload Watching for file changes with StatReloader
+03.08.2024 12-45-07 INFO autoreload /home/andrey/PycharmProjects/MyProject/NewsPortal/News/models.py changed, reloading.
+03.08.2024 12-45-08 INFO autoreload Watching for file changes with StatReloader
+03.08.2024 12-45-21 INFO basehttp "GET /news/50 HTTP/1.1" 200 2981
+03.08.2024 12-45-36 WARNING log Not Found: /about/
+03.08.2024 12-45-36 WARNING basehttp "GET /about/ HTTP/1.1" 404 5205
+03.08.2024 12-45-56 WARNING log Not Found: /contacts/
+03.08.2024 12-45-56 WARNING basehttp "GET /contacts/ HTTP/1.1" 404 5214
+03.08.2024 12-45-59 WARNING log Not Found: /work/
+03.08.2024 12-45-59 WARNING basehttp "GET /work/ HTTP/1.1" 404 5202
+03.08.2024 12-46-07 INFO basehttp "GET /news/ HTTP/1.1" 200 6923
+03.08.2024 12-50-06 INFO autoreload /home/andrey/PycharmProjects/MyProject/NewsPortal/NewsPortal/settings.py changed, reloading.
+03.08.2024 12-50-07 INFO autoreload Watching for file changes with StatReloader
+03.08.2024 13-04-56 INFO autoreload /home/andrey/PycharmProjects/MyProject/NewsPortal/NewsPortal/settings.py changed, reloading.
+03.08.2024 13-04-57 INFO autoreload Watching for file changes with StatReloader
+03.08.2024 13-05-36 INFO basehttp "GET /news/53 HTTP/1.1" 200 4719
+03.08.2024 13-06-09 INFO autoreload /home/andrey/PycharmProjects/MyProject/NewsPortal/NewsPortal/settings.py changed, reloading.
+03.08.2024 13-06-10 INFO autoreload Watching for file changes with StatReloader
+03.08.2024 13-07-06 INFO basehttp "GET /news/ HTTP/1.1" 200 6923
+03.08.2024 13-07-28 INFO autoreload /home/andrey/PycharmProjects/MyProject/NewsPortal/NewsPortal/settings.py changed, reloading.
+03.08.2024 13-07-29 INFO autoreload Watching for file changes with StatReloader
+03.08.2024 13-08-17 INFO basehttp "GET /news/ HTTP/1.1" 200 6923
+03.08.2024 13-23-03 INFO autoreload /home/andrey/PycharmProjects/MyProject/NewsPortal/NewsPortal/settings.py changed, reloading.
